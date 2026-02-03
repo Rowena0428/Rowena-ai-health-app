@@ -4,7 +4,7 @@
 
 // 1. 設定 API (GitHub 安全版)
 let GEMINI_API_KEY = ''; 
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 // 2. 全域變數
 let allProductData = [];
@@ -302,3 +302,4 @@ function initCamera() {
     const btn = document.getElementById('camera-input');
     if (btn) btn.addEventListener('change', () => alert("相機功能開發中！📸"));
 }
+
