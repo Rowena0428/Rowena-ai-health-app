@@ -1,8 +1,33 @@
 // ============================================
-// 配置
+// 配置 (GitHub 安全版)
 // ============================================
-const GEMINI_API_KEY = 'AIzaSyBJCJXafzZrPsi0OOyA-4OpdE7a_1UAduw'; //
+// 這裡不要填寫真實的 Key，留空即可
+let GEMINI_API_KEY = ''; 
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+
+// 檢查並獲取 Key 的功能
+function checkApiKey() {
+    if (!GEMINI_API_KEY) {
+        // 嘗試從瀏覽器暫存讀取 (這樣重新整理後不用一直輸入)
+        const cachedKey = localStorage.getItem('my_gemini_key');
+        if (cachedKey) {
+            GEMINI_API_KEY = cachedKey;
+        } else {
+            // 如果沒有，就彈出視窗詢問
+            const userKey = prompt("請輸入你的 Google Gemini API Key 才能開始對話：\n(你的鑰匙只會保存在你自己的瀏覽器中，絕對安全)");
+            if (userKey) {
+                GEMINI_API_KEY = userKey.trim();
+                localStorage.setItem('my_gemini_key', GEMINI_API_KEY); // 存起來
+            } else {
+                alert("未輸入 API Key，Rowena 無法運作 😢");
+            }
+        }
+    }
+}
+
+// 在網頁載入時執行檢查
+document.addEventListener('DOMContentLoaded', () => {
+    checkApiKey();
 
 // 商品資料全域變數
 let allProductData = [];
@@ -1087,4 +1112,5 @@ function showNotification(message, type = 'success') {
             notification.remove();
         }, 300);
     }, 3000);
+
 }
