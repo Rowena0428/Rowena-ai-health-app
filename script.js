@@ -1,48 +1,68 @@
 // ============================================
-// 配置 (GitHub 安全版)
+// Rowena 智能健康 App - 核心設定 (GitHub 安全版)
 // ============================================
-// 這裡不要填寫真實的 Key，留空即可
+
+// 1. 設定 API 變數 (預設為空，避免 GitHub 洩漏)
 let GEMINI_API_KEY = ''; 
+// 建議改回穩定版 1.5-flash，因為 2.5 有時會不穩定 (500 錯誤)
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
-// 檢查並獲取 Key 的功能
+// 2. 商品資料全域變數 (必須放在最外面！)
+let allProductData = [];
+
+// 3. 檢查 API Key 的函式
 function checkApiKey() {
-    if (!GEMINI_API_KEY) {
-        // 嘗試從瀏覽器暫存讀取 (這樣重新整理後不用一直輸入)
-        const cachedKey = localStorage.getItem('my_gemini_key');
-        if (cachedKey) {
-            GEMINI_API_KEY = cachedKey;
+    // 先試著從瀏覽器記憶體拿
+    const cachedKey = localStorage.getItem('my_gemini_key');
+    
+    if (cachedKey) {
+        GEMINI_API_KEY = cachedKey;
+        console.log("✅ 已載入已儲存的 API Key");
+    } else {
+        // 如果沒有，跳出視窗問用戶
+        const userKey = prompt("👋 哈囉！首次使用請輸入你的 Google Gemini API Key：\n(為了安全，鑰匙只會存在你的瀏覽器裡)");
+        if (userKey && userKey.trim() !== '') {
+            GEMINI_API_KEY = userKey.trim();
+            localStorage.setItem('my_gemini_key', GEMINI_API_KEY); // 存起來下次用
+            alert("✅ 設定成功！Rowena 準備好為你服務啦！");
         } else {
-            // 如果沒有，就彈出視窗詢問
-            const userKey = prompt("請輸入你的 Google Gemini API Key 才能開始對話：\n(你的鑰匙只會保存在你自己的瀏覽器中，絕對安全)");
-            if (userKey) {
-                GEMINI_API_KEY = userKey.trim();
-                localStorage.setItem('my_gemini_key', GEMINI_API_KEY); // 存起來
-            } else {
-                alert("未輸入 API Key，Rowena 無法運作 😢");
-            }
+            alert("⚠️ 你未輸入 API Key，Rowena 的 AI 功能將無法運作 (會顯示連線失敗)。");
         }
     }
 }
 
-// 在網頁載入時執行檢查
+// 4. 網頁載入完成後，啟動所有功能 (這是最關鍵的一步！)
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("🚀 App 正在啟動...");
+    
+    // 第一步：檢查鑰匙
     checkApiKey();
 
-// 商品資料全域變數
-let allProductData = [];
+    // 第二步：啟動各項功能 (確保不會卡在載入畫面)
+    try {
+        if (typeof initTabSwitching === 'function') initTabSwitching(); 
+        if (typeof initPriceSearch === 'function') initPriceSearch();   
+        if (typeof initProfile === 'function') initProfile();           
+        if (typeof initChat === 'function') initChat();                 
+        if (typeof initCamera === 'function') initCamera();             
+        
+        console.log("✨ 所有功能啟動完畢！");
+    } catch (error) {
+        console.error("❌ 啟動時發生錯誤：", error);
+    }
+});
 
 // ============================================
-// Tab 切換邏輯
+// 下面接著原本的 initTabSwitching... 
 // ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    // 初始化所有功能
-    initTabSwitching();
-    initPriceSearch();
-    initProfile();
-    initChat();
-    initCamera();
-});
+🎯 為什麼這樣改就會好？
+變數歸位：我把 let allProductData = [] 拿到了最外面，這樣其他函數才能讀取到商品資料。
+
+閉合括號：修正了 document.addEventListener 的結尾，讓瀏覽器能正確讀取。
+
+確保啟動：我在 DOMContentLoaded 裡明確呼叫了 initTabSwitching() 等函數，這樣網頁一打開，按鈕和聊天視窗才會「醒過來」，不會一直卡在載入中。
+
+改完之後，存檔並上傳 GitHub，重新整理網頁，應該就完美解決了！ 💪✨
 
 function initTabSwitching() {
     const navButtons = document.querySelectorAll('.nav-btn');
@@ -1114,3 +1134,4 @@ function showNotification(message, type = 'success') {
     }, 3000);
 
 }
+
