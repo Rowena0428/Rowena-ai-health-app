@@ -1,7 +1,7 @@
 // ============================================
 // 配置
 // ============================================
-const GEMINI_API_KEY = 'AIzaSyCAT175-zJIxdTUG3ziaElMHIwsgkYczW8'; //AIzaSyBJCJXafzZrPsi0OOyA-4OpdE7a_1UAduw
+const GEMINI_API_KEY = ''; //AIzaSyBJCJXafzZrPsi0OOyA-4OpdE7a_1UAduw
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
 // 商品資料全域變數
@@ -1153,4 +1153,5 @@ function showNotification(message, type = 'success') {
             notification.remove();
         }, 300);
     }, 3000);
+
 }
