@@ -1,0 +1,15 @@
+{
+  "name": "health-price-assistant",
+  "version": "1.0.0",
+  "description": "香港健康省錢助手 - 超市格價應用程式（自動定時更新）",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "crawler": "node crawler.js",
+    "dev": "node crawler.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}

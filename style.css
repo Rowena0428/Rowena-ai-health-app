@@ -1,0 +1,86 @@
+/* ============================================
+   自訂樣式
+   ============================================ */
+
+/* 平滑滾動 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 導航按鈕過渡效果 */
+.nav-btn {
+    transition: all 0.3s ease;
+}
+
+.nav-btn.active {
+    transform: translateY(-2px);
+}
+
+/* 聊天訊息動畫 */
+#chat-messages {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+#chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+#chat-messages::-webkit-scrollbar-track {
+    background: #f7fafc;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+#chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+/* 圖片預覽容器 */
+#image-preview-container img {
+    max-height: 400px;
+    object-fit: contain;
+}
+
+/* 價格卡片懸停效果 */
+#price-list > div {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#price-list > div:hover {
+    transform: translateY(-2px);
+}
+
+/* 表單輸入焦點效果增強 */
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+/* 響應式調整 */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    #chat-messages {
+        max-height: calc(100vh - 300px);
+    }
+}
+
+/* 載入動畫 */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
